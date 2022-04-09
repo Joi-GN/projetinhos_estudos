@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <title>Adivinha</title>
+</head>
+
+<body>
+    <main>
+        <h1>🎲Adivinha🎲</h1>
+
+        <div class="hints">
+            <h3>Um número de 0 a 20, foi escolhido aleatoriamente por mim 😁</h3>
+            <h3>Tente descobrir qual é!</h3>
+        </div>
+
+        <div class="attempts">
+            <h3>Você tem 5 tentativas e a cada tentativa você recebe uma dica.</h3>
+        </div>
+
+        <input type="text" / placeholder="Digite o número aqui">
+        <button type="submit">Check</button>
+    </main>
+
+    <footer>
+        <a href="https://www.linkedin.com/in/joice-gomes-dn/" target="_blank">LinkedIn🤓</a>
+        <p>Desenvolvido por Joice Gomes | 2022</p>
+        <a href="https://github.com/Joi-GN" target="_blank">Github👩‍💻</a>
+    </footer>
+
+    <script defer>
+
+        // DOM
+        const input = document.querySelector('input');
+        const button = document.querySelector('button');
+        const hints = document.querySelector('.hints');
+        const attempts = document.querySelector('.attempts');
+
+        //Variaveis
+        let numeroAleatorio = Math.round(Math.random() * 20);
+        let tentativas = 5;
+
+        input.focus();
+
+        //Adivinha
+        button.onclick = check;
+
+        function check() {
+
+            if (isNaN(input.value) || input.value == "") {
+
+                hints.innerHTML = "<h3>Digite um número para fazer sua primeira tentativa! 🤨</h3>"
+                attempts.innerHTML = `<h3>Você tem ${tentativas} tentativas restantes</h3>`
+
+            } else if (input.value > 20) {
+
+                hints.innerHTML = "<h3>Digite um número entre 0 e 20! 🤨</h3>"
+                attempts.innerHTML = `<h3>Você tem ${tentativas} tentativas restantes</h3>`
+
+            } else {
+
+                if (input.value == numeroAleatorio) {
+
+                    hints.innerHTML = `<h3>Você acertou!! O número aleatório escolhido foi ${numeroAleatorio}! 🥳</h3><h3>Para jogar novamente clique no botão abaixo👇</h3>`
+                    attempts.innerHTML = `<h3>Faltavam ${tentativas} tentativas restantes</h3>`
+
+                    button.innerHTML = "Jogar novamente🔄"
+                    button.onclick = tentarNovamente;
+
+                } else {
+
+                    tentativas--;
+
+                    attempts.innerHTML = `<h3>Faltam ${tentativas} tentativas restantes</h3>`
+
+                    if (tentativas == 0) {
+
+                        hints.innerHTML = `<h3>Você perdeu😥</h3>`
+                        attempts.innerHTML = `<h3>Suas tentativas acabaram! O número aleatório escolhido era ${numeroAleatorio}</h3><h3>Para jogar novamente clique no botão abaixo👇</h3>`
+
+                        button.innerHTML = "Jogar novamente🔄";
+                        button.onclick = tentarNovamente;
+
+                    } else {
+
+                        if (input.value < numeroAleatorio) {
+
+                            hints.innerHTML = `<h3>Você errou! 😬</h3><h3>O número escolhido é maior que ${input.value}!</h3>`
+
+                        } else {
+
+                            hints.innerHTML = `<h3>Você errou! 😬</h3><h3>O número escolhido é menor que ${input.value}!</h3>`
+                            
+                        }
+                    }
+
+                }
+
+
+            }
+        }
+
+        function tentarNovamente() {
+            window.location.reload();
+        }
+
+    </script>
+</body>
+
+</html>

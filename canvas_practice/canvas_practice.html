@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            width: 100vw;
+            text-align: center;
+        }
+
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            margin: auto;
+            max-width: 1200px;
+        }
+
+        body div {
+            margin: 10px;
+        }
+    </style>
+
+    <title>Canvas Practice</title>
+</head>
+
+<body>
+    <header>
+        <h1>Canvas Practice</h1>
+    </header>
+    <main>
+        <div>
+            <canvas class="creeper" width="350" height="300"></canvas>
+        </div>
+
+        <div>
+            <canvas class="bandeira" width="400" height="300"></canvas>
+        </div>
+
+        <div>
+            <canvas class="esquadro" width="350" height="300"></canvas>
+        </div>
+
+        <div>
+            <canvas class="flor" width="350" height="300"></canvas>
+        </div>
+
+        <div>
+            <canvas class="grafico-barras" width="400" height="300"></canvas>
+        </div>
+    </main>
+
+    <script>
+
+        (function desenhaCreeper() {
+            const canvas = document.querySelector('.creeper');
+            const pincel = canvas.getContext('2d');
+
+            pincel.fillStyle = 'darkgreen';
+            pincel.fillRect(0, 0, 350, 300);
+
+            pincel.fillStyle = 'black';
+
+            pincel.fillRect(50, 60, 90, 90);
+            pincel.fillRect(210, 60, 90, 90);
+
+            pincel.fillRect(140, 150, 70, 100);
+
+            pincel.fillRect(100, 190, 40, 110);
+            pincel.fillRect(210, 190, 40, 110);
+        })();
+
+        function desenhaEsquadro(xa, ya, xc, yc,cor) {
+            const canvas = document.querySelector('.esquadro');
+            const pincel = canvas.getContext('2d')
+
+            pincel.fillStyle = cor;
+            pincel.beginPath();
+            pincel.moveTo(xa, ya);
+            pincel.lineTo(xa, yc);
+            pincel.lineTo(xc, yc);
+            pincel.fill();
+
+            pincel.fillStyle = 'white'
+            pincel.beginPath();
+            pincel.moveTo((6 * xa + xc) / 7, (9 * ya + 5 * yc) / 14);
+            pincel.lineTo((6 * xa + xc) / 7, (ya + 6 * yc) / 7);
+            pincel.lineTo((5 * xa + 9 * xc) / 14, (ya + 6 * yc) / 7);
+            pincel.fill();
+        }
+
+        desenhaEsquadro(0, 0, 350, 300, 'magenta');
+
+        (function desenhaBandeiraBR() {
+            const canvas = document.querySelector('.bandeira');
+            const pincel = canvas.getContext('2d');
+
+            pincel.fillStyle = "green";
+            pincel.fillRect(0, 0, 400, 300);
+
+            pincel.fillStyle = 'yellow';
+            pincel.beginPath();
+            pincel.moveTo(200, 250);
+            pincel.lineTo(40, 150);
+            pincel.lineTo(360, 150);
+            pincel.fill();
+
+            pincel.fillStyle = 'yellow';
+            pincel.beginPath();
+            pincel.moveTo(200, 50);
+            pincel.lineTo(40, 150);
+            pincel.lineTo(360, 150);
+            pincel.fill();
+
+            pincel.fillStyle = "darkblue";
+            pincel.beginPath();
+            pincel.arc(200, 150, 65, 0, 2 * 3.14);
+            pincel.fill();
+
+            //Os primeiros dois parâmetros são as coordenadas X e Y do centro do circulo (200 e 150). O terceiro parâmetro é o valor do raio (65). O quarto e quinto parâmetros definem o ângulo inicial e final do circulo. Como queremos desenhar um circulo completo, os parâmetros são, respectivamente, 0 e 2 * PI.
+        })();
+
+        (function desenhaFlor() {
+            const canvas = document.querySelector('.flor');
+            const pincel = canvas.getContext('2d');
+
+            pincel.strokeRect(0, 0, 350, 300);
+            pincel.fillText('Florzinha😊', 150, 80);
+
+            function desenhaCirculos(x, y, raio, cor) {
+                pincel.fillStyle = cor;
+                pincel.beginPath();
+                pincel.arc(x, y, raio, 0, 2 * 3.14);
+                pincel.fill();
+            }
+
+            desenhaCirculos(175, 150, 20, 'brown');
+            desenhaCirculos(175, 190, 20, 'purple');
+            desenhaCirculos(150, 180, 20, 'pink');
+            desenhaCirculos(175, 110, 20, 'purple');
+            desenhaCirculos(150, 120, 20, 'pink');
+            desenhaCirculos(135, 150, 20, 'purple');
+            desenhaCirculos(205, 125, 20, 'pink');
+            desenhaCirculos(215, 150, 20, 'purple');
+            desenhaCirculos(205, 175, 20, 'pink');
+
+
+        })();
+
+        (function desenhaGrafico() {
+            var serie2015 = [50, 25, 20, 5];
+            var serie2016 = [65, 20, 13, 2];
+            var cores = ['blue', 'green', 'yellow', 'red'];
+
+            const canvas = document.querySelector('.grafico-barras');
+            const pincel = canvas.getContext('2d');
+
+            pincel.strokeRect(0, 0, 400, 300);
+            pincel.fillText("Gráficos em Barra", 150, 15);
+            pincel.fillText("Em 2015: 50% Chrome, 25% Firefox, 20% Safari, 5% Outros (Opera, IE, etc).", 10, 180);
+            pincel.fillText("Em 2016: 65% Chrome, 20% Firefox, 13% Safari, 2% Outros (Opera, IE, Edge, etc).", 10, 200);
+
+            function desenhaBarra(x, y, serie, cor, texto) {
+
+                function desenhaRetangulo(x, y, largura, altura, cor) {
+
+                    pincel.fillStyle = cor;
+                    pincel.fillRect(x, y, largura, altura);
+                    pincel.strokeStyle = 'black';
+                    pincel.strokeRect(x, y, largura, altura);
+                }
+
+                function desenhaTexto(x, y, texto) {
+
+                    pincel.font = '15px Georgia';
+                    pincel.fillStyle = 'black';
+                    pincel.fillText(texto, x, y);
+                }
+
+                desenhaTexto(x, y - 10, texto);
+
+                let somaAltura = 0;
+
+                for (let i = 0; i < serie.length; i++) {
+                    let altura = serie[i];
+                    desenhaRetangulo(x, y + somaAltura, 50, altura, cor[i]);
+                    somaAltura += altura;
+                }
+            }
+
+
+            desenhaBarra(50, 50, serie2015, cores, '2015');
+            desenhaBarra(150, 50, serie2016, cores, '2016');
+
+        })();
+
+    </script>
+</body>
+
+</html>
