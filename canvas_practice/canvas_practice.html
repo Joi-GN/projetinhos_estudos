@@ -53,6 +53,10 @@
         <div>
             <canvas class="grafico-barras" width="400" height="300"></canvas>
         </div>
+
+        <div>
+            <canvas class="alvo" width="350" height="300"></canvas>
+        </div>
     </main>
 
     <script>
@@ -197,6 +201,27 @@
             desenhaBarra(50, 50, serie2015, cores, '2015');
             desenhaBarra(150, 50, serie2016, cores, '2016');
 
+        })();
+
+        (function desenhaAlvo(){
+            const canvas = document.querySelector('.alvo');
+            const pincel = canvas.getContext('2d');
+
+            pincel.strokeRect(0,0,350,300);
+
+            let raio = 10;
+
+            function desenhaCirculo(x,y,raio,cor){
+
+                pincel.fillStyle = cor;
+                pincel.beginPath();
+                pincel.arc(x,y,raio,0,2*Math.PI);
+                pincel.fill();
+            }
+
+            desenhaCirculo(175,150,raio+20,'red');
+            desenhaCirculo(175,150,raio+10,'white');
+            desenhaCirculo(175,150,raio,'red');
         })();
 
     </script>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+    
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 95vw;
+            font-family: Verdana;
+        }
+
+        body h1,
+        p {
+            margin: 5px 0;
+        }
+
+        .pincel{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 90%;
+            justify-content: space-evenly;
+        }
+
+        .pincel div{
+            display: flex;
+        }
+
+        div input{
+            border: none;
+            background-color: transparent;
+        }
+
+        .pincel button{
+            font-family: verdana;
+            padding: 5px 15px;
+            border-radius: 6px;
+            border: none;
+            background-color: lightblue;
+            cursor: pointer;
+        }
+
+        canvas{
+            margin-top: 20px;
+        }
+
+        footer{
+            display: flex;
+            font-size: 16px;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+            width: 70%;
+        }
+
+        footer a{
+            text-decoration: none;
+            color: black;
+        }
+
+    </style>
+
+    <title>Paint Canvas</title>
+</head>
+
+<body>
+    <h1>Paint Canvas</h1>
+    <p>Clique dentro do quadro para pintar🖌</p>
+    <div class="pincel">
+        <div>
+            <p>Escolha a cor:</p>
+            <input type="color" id="paleta">
+        </div>
+        <div>
+            <p>Tamanho do pincel:</p>
+            <input type="range" id="tamanho-pincel" min="5" max="50" oninput="defineTamanhoRaio()">
+        </div>
+        <div>
+            <button onclick="apagaQuadro()">Apagar tudo</button>
+        </div>
+    </div>
+        
+    </div>
+
+    <div>
+        <canvas width="600" height="400"></canvas>
+    </div>
+
+    <footer>
+        <a href="https://www.linkedin.com/in/joice-gomes-dn/" target="_blank">LinkedIn🤓</a>
+        <p>Desenvolvido por Joice Gomes | 2022</p>
+        <a href="https://github.com/Joi-GN" target="_blank">Github👩‍💻</a>
+    </footer>
+
+    <script>
+        const canvas = document.querySelector('canvas');
+        const pincel = canvas.getContext('2d');
+        const paleta = document.querySelector('#paleta');
+        const tamanhoPincel = document.querySelector('#tamanho-pincel');
+
+        pincel.strokeRect(0, 0, 600, 400);
+
+        let desenha = false;
+        canvas.onmousedown = () => desenha = true;
+        canvas.onmouseup = () => desenha = false;
+        canvas.onmousemove = pinta;
+
+        let raio = 20;
+        function defineTamanhoRaio(){
+            raio = parseInt(tamanhoPincel.value);
+        }
+
+        function pinta(event) {
+
+            if (desenha) {
+                let x = event.pageX - canvas.offsetLeft;
+                let y = event.pageY - canvas.offsetTop;
+
+                pincel.fillStyle = paleta.value;
+                pincel.beginPath();
+                pincel.arc(x, y, raio, 0, 2 * 3.14);
+                pincel.fill();
+            }
+        }
+
+        function apagaQuadro(){
+            pincel.clearRect(0,0,600,400);
+            pincel.strokeRect(0, 0, 600, 400);
+        }
+
+    </script>
+</body>
+
+</html>

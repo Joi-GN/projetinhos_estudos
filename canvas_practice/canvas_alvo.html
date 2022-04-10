@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Alvo</title>
+</head>
+
+<body>
+    <canvas width="600" height="400"></canvas>
+
+    <script>
+        const canvas = document.querySelector('canvas');
+        const pincel = canvas.getContext('2d');
+        let raio = 10;
+        
+        desenhaAlvo();
+        canvas.onclick = dispara;
+
+        function desenhaAlvo() {
+            pincel.strokeRect(0, 0, 600, 400);
+
+            function desenhaCirculo(x, y, raio, cor) {
+
+                pincel.fillStyle = cor;
+                pincel.beginPath();
+                pincel.arc(x, y, raio, 0, 2 * Math.PI);
+                pincel.fill();
+            }
+
+            desenhaCirculo(300, 200, raio + 20, 'red');
+            desenhaCirculo(300, 200, raio + 10, 'white');
+            desenhaCirculo(300, 200, raio, 'red');
+        };
+
+        function dispara(event) {
+            let x = event.pageX - canvas.offsetLeft;
+            let y = event.pageY - canvas.offsetTop;
+        
+            if (x > 300 - raio && x < 300 + raio && y > 200 - raio && y < 200 + raio) {
+                    alert('Acertou');
+            }
+        }
+
+    </script>
+</body>
+
+</html>
