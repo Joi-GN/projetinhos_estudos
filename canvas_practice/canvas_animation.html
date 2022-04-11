@@ -5,18 +5,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            background-color: grey;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+    </style>
     <title>Canvas Animation</title>
 </head>
 
 <body>
     <div>
         <h1>Bolinhas deslizando</h1>
-        <canvas class="desliza" width="600" height="400"></canvas>    
+        <canvas class="desliza" width="600" height="200"></canvas>    
     </div>
 
     <div>
         <h1>Bolinha pulsando</h1>
-        <canvas class="pulsando" width="600" height="400"></canvas>    
+        <canvas class="pulsando" width="600" height="200"></canvas>    
+    </div>
+
+    <div>
+        <h1>Movimentando a bolinha pelo teclado</h1>
+        <canvas class="movimentando" width="600" height="400"></canvas>
     </div>
     
     <script>
@@ -26,7 +39,7 @@
             const pincel = canvas.getContext('2d');
             let x = 20;
 
-            pincel.strokeRect(0, 0, 600, 400);
+            pincel.strokeRect(0, 0, 600, 200);
 
             let volta = false;
 
@@ -38,8 +51,8 @@
             }
 
             function limpaTela() {
-                pincel.clearRect(0, 0, 600, 400);
-                pincel.strokeRect(0, 0, 600, 400);
+                pincel.clearRect(0, 0, 600, 200);
+                pincel.strokeRect(0, 0, 600, 200);
             }
 
             function atualizaTela() {
@@ -65,18 +78,6 @@
                 }
             }
 
-            //solução do prof para fazer a bolinha ir e voltar
-            //     var sentido = 1;
-
-            //     if( x > 600) {
-            //         sentido = -1;
-            //     } else if (x < 0) {
-            //         sentido = 1;
-            //     } 
-
-            //     desenhaCirculo(x, 20, 10);
-            //     x = x + sentido;
-
             setInterval(atualizaTela, 10);
         })();
 
@@ -85,7 +86,7 @@
             const pincel = canvas.getContext('2d');
             let raio = 20;
 
-            pincel.strokeRect(0, 0, 600, 400);
+            pincel.strokeRect(0, 0, 600, 200);
 
             function desenhaCirculo(x, y, raio, cor) {
                 pincel.fillStyle = cor;
@@ -95,15 +96,15 @@
             }
 
             function limpaTela() {
-                pincel.clearRect(0, 0, 600, 400);
-                pincel.strokeRect(0, 0, 600, 400);
+                pincel.clearRect(0, 0, 600, 200);
+                pincel.strokeRect(0, 0, 600, 200);
             }
 
             let fatorCrescimento = 1;
 
             function atualizaTela() {
                 limpaTela();
-                desenhaCirculo(300, 200, raio, 'red');
+                desenhaCirculo(300, 100, raio, 'red');
 
                 if(raio > 30){
                     fatorCrescimento = -1;
@@ -118,6 +119,57 @@
             setInterval(atualizaTela,20);
         })();
 
+        (function movimentandoBola(){
+            const canvas = document.querySelector('.movimentando');
+            const pincel = canvas.getContext('2d');
+
+            pincel.strokeRect(0,0,600,400);
+
+            let x = 20;
+            let y = 20;
+
+            function desenhaCirculo(x,y,raio,cor){
+
+                pincel.fillStyle = cor;
+                pincel.beginPath();
+                pincel.arc(x,y,raio,0,2*Math.PI);
+                pincel.fill();
+            }
+
+            function limpaTela(){
+                pincel.clearRect(0,0,600,400);
+                pincel.strokeRect(0,0,600,400);
+            }
+
+            function atualizaTela(){
+                limpaTela();
+                desenhaCirculo(x,y,10,'yellow');
+            }
+
+            setInterval(atualizaTela,20);
+
+            let taxa = 10; //taxa de incremento/decremento
+
+            function leDoTeclado(evento){
+                
+                if(x > 10 && evento.code == 'ArrowLeft'){
+                    x -= taxa;
+                    
+                }else if(y > 10 && evento.code == 'ArrowUp'){
+                    y -= taxa;
+                    
+                }else if(x < 590 && evento.code == 'ArrowRight'){
+                    x += taxa;
+                    
+                }else if(y < 390 && evento.code == 'ArrowDown'){
+                    y += taxa;
+
+                }
+            }
+
+            document.onkeydown = leDoTeclado;
+
+        })();
     </script>
 </body>
 
